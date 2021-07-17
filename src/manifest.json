@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "New Tab",
+  "description": "Medium articles, the good way!",
+  "version": "1.0",
+  "permissions": ["management", "history", "storage"],
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  }
+}
