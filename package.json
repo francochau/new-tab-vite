@@ -6,9 +6,14 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^1.3.0",
+    "@heroicons/react": "^1.0.2",
+    "@rollup/plugin-commonjs": "^19.0.1",
+    "@tailwindcss/forms": "^0.3.3",
     "dayjs": "^1.10.6",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-scroll-wheel-handler": "^2.0.1",
     "react-side-pane": "^2.3.6",
     "rollup-plugin-copy": "^3.4.0",
     "weather-icons-react": "^1.2.0"

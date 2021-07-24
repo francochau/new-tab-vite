@@ -16,26 +16,26 @@ const WeatherWidget = (props) => {
     const icon = props.forecast.weather ? props.forecast.weather[0].id : 0;
     switch (true) {
       case icon === 800:
-        return <WiDaySunny size={100} />;
+        return <WiDaySunny size={80} />;
 
       case icon > 800:
-        return <WiCloudy size={100} />;
+        return <WiCloudy size={80} />;
 
       case icon > 700:
-        return <WiFog size={100} />;
+        return <WiFog size={80} />;
 
       case icon > 600:
-        return <WiSnowflakeCold size={100} />;
+        return <WiSnowflakeCold size={80} />;
 
       case icon > 500:
-        return <WiRain size={100} />;
+        return <WiRain size={80} />;
       case icon > 300:
-        return <WiShowers size={100} />;
+        return <WiShowers size={80} />;
       case icon > 200:
-        return <WiThunderstorm size={100} />;
+        return <WiThunderstorm size={80} />;
 
       default:
-        return <WiCloudy size={100} />;
+        return <WiCloudy size={80} />;
     }
   }
 
@@ -47,7 +47,7 @@ const WeatherWidget = (props) => {
   }
 
   return (
-    <div style={{ margin: '1.5em', textAlign: 'center', fontSize: '1rem' }}>
+    <div style={{ margin: '1.5em', textAlign: 'center', fontSize: '1rem' }} className="text-white">
       <div>{getIcon(props.now)}</div>
       {props.forecast.main && props.now === true ? (
         <div>

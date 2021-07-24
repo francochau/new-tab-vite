@@ -20,9 +20,9 @@ const DateTime = () => {
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div style={{ textAlign: 'center' }} >
       <div>
-        <span style={timeStyle}>{date.format('HH mm ss')}</span>
+        <span className="xl:text-9xl md:text-8xl h-sm:text-7xl text-7xl font-extralight whitespace-nowrap text-white">{date.format('HH mm ss')}</span>
       </div>
       <div>
         <span style={dateStyle}>{date.format('dddd, MMMM DD')}</span>

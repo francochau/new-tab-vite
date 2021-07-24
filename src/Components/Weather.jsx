@@ -7,7 +7,6 @@ const Weather = () => {
   const [forecasts, setForcasts] = useState([]);
   const [condition, setCondition] = useState({});
 
-  // const key = '8mOlWPCfcLKzwgpAMHXuZCX9IGXbpX7n';
   const key = 'aeee45d8d84c5345e753714ba560babe';
 
   const getLocationKey = async (location) => {
