@@ -1,0 +1,12 @@
+.widgetcontainer{
+    max-width: 500px;
+    height: 70vh;
+    width: 35vw;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.widgetcontainer::-webkit-scrollbar {
+  display: none;
+}
