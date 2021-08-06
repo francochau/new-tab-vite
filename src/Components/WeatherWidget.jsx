@@ -47,16 +47,19 @@ const WeatherWidget = (props) => {
   }
 
   return (
-    <div style={{ margin: '1.5em', textAlign: 'center', fontSize: '1rem' }} className="text-white">
+    <div
+      style={{ margin: '1.5em', textAlign: 'center', fontSize: '1rem' }}
+      className='text-white'
+    >
       <div>{getIcon(props.now)}</div>
-      {props.forecast.main && props.now === true ? (
+      {props.forecast.main && props.now === true && (
         <div>
           <span style={{ fontWeight: '600' }}>
             {convertStandardTemp(props.forecast.main.temp)}
           </span>
         </div>
-      ) : null}
-      {props.now === false ? (
+      )}
+      {props.now === false && (
         <div>
           <span style={{ fontWeight: '600' }}>
             {convertStandardTemp(props.forecast.temp.max)}
@@ -67,7 +70,7 @@ const WeatherWidget = (props) => {
             {convertStandardTemp(props.forecast.temp.min)}
           </span>
         </div>
-      ) : null}
+      )}
       <div>
         {props.now ? 'Now' : dayjs.unix(props.forecast.dt).format('dddd')}
       </div>

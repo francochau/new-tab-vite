@@ -26,7 +26,8 @@ const Drawer = (props) => {
               leaveFrom='opacity-100'
               leaveTo='opacity-0'
             >
-              <Dialog.Overlay className='absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
+              <Dialog.Overlay className='absolute inset-0' />
+              {/* bg-gray-500 bg-opacity-75 transition-opacity */}
             </Transition.Child>
 
             <div className='fixed inset-y-0 left-0 pr-10 max-w-full flex'>
@@ -40,7 +41,7 @@ const Drawer = (props) => {
                 leaveTo='-translate-x-full z-index-0'
               >
                 <div className='w-screen max-w-2xl'>
-                  <div className='h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll'>
+                  <div className='h-full flex flex-col py-6 bg-white shadow-xl'>
                     <div className='px-4 sm:px-6'>
                       <div className='flex items-start justify-between'>
                         <Dialog.Title className='text-lg font-medium text-gray-900'>
@@ -60,7 +61,7 @@ const Drawer = (props) => {
                     <div className='mt-6 relative flex-1 px-4 sm:px-6'>
                       <div className='absolute inset-0 px-4 sm:px-6'>
                         <div
-                          className='h-full border-2 border-dashed border-gray-200'
+                          className='h-full'
                           aria-hidden='true'
                         >
                           {props.children}

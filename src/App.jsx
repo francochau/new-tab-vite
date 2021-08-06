@@ -1,56 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import R from 'react-scroll-wheel-handler';
 import { SidePane } from 'react-side-pane';
-import DateTime from './Components/DateTime';
-import Weather from './Components/Weather';
-import Reddit from './Components/Reddit';
-import Drawer from './Components/Drawer';
-
+import DateTime from './components/DateTime';
+import Weather from './components/Weather';
+import Reddit from './components/Reddit';
+import Drawer from './components/drawer/Drawer';
+import SettingDrawer from './components/drawer/SettingDrawer';
 import { Transition } from '@headlessui/react';
 import './App.css';
+
+import {
+  MenuAlt4Icon,
+  ChevronUpIcon,
+  ChevronDownIcon,
+} from '@heroicons/react/outline';
+
+import { useConfigs, useWidgets } from './api/Storage';
+import { themes } from './themes/themes';
 
 function App() {
   const ReactScrollWheelHandler = R.default ? R.default : R;
   const [showFeed, setShowFeed] = useState(false);
-  const [config, setConfig] = useState({
-    widgets: {
-      left: { type: 'reddit', src: 'cryptocurrency', sorting: 'rising' },
-      right: { type: 'reddit', src: 'news', sorting: 'rising' },
-    },
-  });
-  const [leftWidget, setLeftWidget] = useState({
-    type: 'reddit',
-    src: 'cryptocurrency',
-    sorting: 'rising',
-  });
-  const [rightWidget, setRightWidget] = useState({
-    type: 'reddit',
-    src: 'news',
-    sorting: 'rising',
-  });
 
   const [showDrawer, setDrawer] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    chrome.storage?.sync.get(['left', 'right'], function (result) {
-      if (Object.keys(result).length !== 0) {
-        setLeftWidget(result.left);
-        setRightWidget(result.right);
-      } else {
-        chrome.storage?.sync.set(
-          {
-            left: { type: 'reddit', src: 'reactjs', sorting: 'hot' },
-            right: { type: 'reddit', src: 'news', sorting: 'rising' },
-          },
-          (result) => {
-            console.log(result);
-          }
-        );
-      }
-    });
-  }, []);
+  const widgets = useWidgets();
+  const configs = useConfigs();
 
   const scrollButton = {
     position: 'absolute',
@@ -59,7 +36,7 @@ function App() {
     display: 'block',
     border: '2px solid #FFF',
     backgroundSize: '14px auto',
-    zIndex: '2',
+    zIndex: '1',
     width: '12px',
     height: '12px',
     content: '',
@@ -69,38 +46,37 @@ function App() {
   const scrollUp = () => {
     setShowFeed(false);
     setMounted(true);
-  }
+  };
 
   const scrollDown = () => {
     setShowFeed(true);
     setMounted(true);
-  }
+  };
 
+  const getTheme = (theme) => {
+    if (!themes[theme]) {
+      theme = 'theme1';
+    }
+    return {
+      backgroundImage: `linear-gradient(to right, ${themes[theme].from}, ${
+        themes[theme].via ? themes[theme].via + ',' : ''
+        } ${themes[theme].to})`,
+    };
+  };
   return (
-    // <ReactScrollWheelHandler></ReactScrollWheelHandler>
-
     <ReactScrollWheelHandler
       upHandler={scrollUp}
       downHandler={scrollDown}
       pauseListeners={scrolling}
     >
-      <div className='relative h-screen w-screen overflow-hidden text-white'>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
-          stroke='currentColor'
-          height='32'
-          className='absolute m-7 cursor-pointer text-white'
+      <div
+        className='relative h-screen w-screen overflow-hidden text-white'
+        style={getTheme(configs?.data?.theme ? configs.data.theme : 'theme1')}
+      >
+        <MenuAlt4Icon
+          className='absolute m-7 cursor-pointer text-white h-7'
           onClick={() => setDrawer(true)}
-        >
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            strokeWidth='1'
-            d='M4 6h16M4 12h16M4 18h16'
-          />
-        </svg>
+        />
         <div
           className={`flex flex-col absolute left-1/2 transform  -translate-x-1/2 
            ${mounted ? 'transition-all delay-500 duration-700' : ''}
@@ -122,8 +98,8 @@ function App() {
               }}
               onMouseLeave={() => setScrolling(false)}
             >
-              <Reddit redditConfig={leftWidget} position='left' />
-              <Reddit redditConfig={rightWidget} position='right' />
+              <Reddit redditConfig={widgets.data?.left} position='left' />
+              <Reddit redditConfig={widgets.data?.right} position='right' />
             </div>
           </Transition>
           <Transition
@@ -139,7 +115,9 @@ function App() {
           </Transition>
         </div>
 
-        <Drawer open={showDrawer} setOpen={setDrawer} >testing</Drawer>
+        <Drawer open={showDrawer} setOpen={setDrawer}>
+          <SettingDrawer />
+        </Drawer>
 
         <div
           className='cursor-pointer'

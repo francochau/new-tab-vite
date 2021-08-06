@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import WeatherWidget from './WeatherWidget';
+import { useCurrentCondition, useWeatherForecasts } from '../Api/weather';
 
 const Weather = () => {
   // const [location, setLocation] = useState({});
-  const [forecasts, setForcasts] = useState([]);
-  const [condition, setCondition] = useState({});
+  // const [forecasts, setForcasts] = useState([]);
+  // const [condition, setCondition] = useState({});
 
   const key = 'aeee45d8d84c5345e753714ba560babe';
 
@@ -63,21 +64,28 @@ const Weather = () => {
     setForcasts(data.daily.slice(1, 5));
   };
 
-  useEffect(() => {
-    const location = 'Hong Kong';
-    getLocationKey(location).then((location) => {
-      getCurrentCondition(location);
-      getWeatherForecasts(location);
-    });
-  }, []);
+  const res = useCurrentCondition('Hong Kong');
+  const forecastRes = useWeatherForecasts({ lon: 114, lat: 22 });
+  if (res.isLoading || forecastRes.isLoading) return 'Loading...';
+  if (res.error || forecastRes.error)
+    return 'An error has occurred: ' + res.error + forecastRes.error;
+  // useEffect(() => {
+  // const location = 'Hong Kong';
+  // getLocationKey(location).then((location) => {
+  //   getCurrentCondition(location);
+  //   getWeatherForecasts(location);
+  // });
+  // }, []);
 
   return (
     <div style={{ display: 'inline-flex' }}>
-      <WeatherWidget forecast={condition} now={true} />
-      {forecasts.map((e, index) => (
-        <WeatherWidget forecast={e} now={false} key={index} />
-      ))}
-      {/* {JSON.stringify(forecasts)} */}
+      <WeatherWidget forecast={res.data} now={true} />
+      {forecastRes &&
+        forecastRes.data
+          .slice(1, 5)
+          .map((e, index) => (
+            <WeatherWidget forecast={e} now={false} key={index} />
+          ))}
     </div>
   );
 };
