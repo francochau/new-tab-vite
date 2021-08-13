@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import R from 'react-scroll-wheel-handler';
-import { SidePane } from 'react-side-pane';
-import DateTime from './components/DateTime';
-import Weather from './components/Weather';
-import Reddit from './components/Reddit';
-import Drawer from './components/drawer/Drawer';
+import DateTime from './components/widgets/DateTime';
+import Weather from './components/widgets/Weather';
+import Reddit from './components/widgets/Reddit';
 import SettingDrawer from './components/drawer/SettingDrawer';
 import { Transition } from '@headlessui/react';
-import './App.css';
 
 import {
   MenuAlt4Icon,
@@ -15,66 +12,42 @@ import {
   ChevronDownIcon,
 } from '@heroicons/react/outline';
 
-import { useConfigs, useWidgets } from './api/Storage';
-import { themes } from './themes/themes';
+import { useConfigs } from './hooks/useStorage';
+import { getThemeStyle, getThemeClass } from './themes/themes';
 
 function App() {
   const ReactScrollWheelHandler = R.default ? R.default : R;
-  const [showFeed, setShowFeed] = useState(false);
 
+  const [showFeed, setShowFeed] = useState(false);
   const [showDrawer, setDrawer] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  const widgets = useWidgets();
   const configs = useConfigs();
 
-  const scrollButton = {
-    position: 'absolute',
-    left: '50%',
-    marginLeft: '-16px',
-    display: 'block',
-    border: '2px solid #FFF',
-    backgroundSize: '14px auto',
-    zIndex: '1',
-    width: '12px',
-    height: '12px',
-    content: '',
-    borderWidth: '0px 0 2px 2px',
+  const scrollHandler = (direction) => {
+    setShowFeed(direction);
+    !mounted && setMounted(true);
   };
 
-  const scrollUp = () => {
-    setShowFeed(false);
-    setMounted(true);
-  };
-
-  const scrollDown = () => {
-    setShowFeed(true);
-    setMounted(true);
-  };
-
-  const getTheme = (theme) => {
-    if (!themes[theme]) {
-      theme = 'theme1';
-    }
-    return {
-      backgroundImage: `linear-gradient(to right, ${themes[theme].from}, ${
-        themes[theme].via ? themes[theme].via + ',' : ''
-        } ${themes[theme].to})`,
-    };
-  };
   return (
     <ReactScrollWheelHandler
-      upHandler={scrollUp}
-      downHandler={scrollDown}
-      pauseListeners={scrolling}
+      upHandler={() => scrollHandler(false)}
+      downHandler={() => scrollHandler(true)}
+      pauseListeners={scrolling || showDrawer}
     >
       <div
-        className='relative h-screen w-screen overflow-hidden text-white'
-        style={getTheme(configs?.data?.theme ? configs.data.theme : 'theme1')}
+        key={configs?.data?.theme}
+        className={`relative h-screen w-screen overflow-hidden text-white select-none ${getThemeClass(
+          configs?.data?.theme
+        )}
+        `}
+        style={getThemeStyle(
+          configs?.data?.theme ? configs.data.theme : 'theme1'
+        )}
       >
         <MenuAlt4Icon
-          className='absolute m-7 cursor-pointer text-white h-7'
+          className='absolute m-7 cursor-pointer text-white h-7 z-0'
           onClick={() => setDrawer(true)}
         />
         <div
@@ -92,14 +65,14 @@ function App() {
             leaveTo='opacity-0'
           >
             <div
-              className='inline-flex'
+              className='flex h-full'
               onMouseEnter={() => {
                 setScrolling(true);
               }}
               onMouseLeave={() => setScrolling(false)}
             >
-              <Reddit redditConfig={widgets.data?.left} position='left' />
-              <Reddit redditConfig={widgets.data?.right} position='right' />
+              <Reddit position='left' />
+              <Reddit position='right' />
             </div>
           </Transition>
           <Transition
@@ -115,27 +88,20 @@ function App() {
           </Transition>
         </div>
 
-        <Drawer open={showDrawer} setOpen={setDrawer}>
-          <SettingDrawer />
-        </Drawer>
-
         <div
-          className='cursor-pointer'
-          onClick={() => {
-            setShowFeed(!showFeed);
-            setMounted(true);
-          }}
-          style={{
-            ...scrollButton,
-            ...(showFeed
-              ? { top: '30px', transform: 'rotate(135deg)' }
-              : {
-                  bottom: '30px',
-                  transform: 'rotate(-45deg)',
-                }),
-          }}
-        ></div>
+          className={`absolute left-1/2 -ml-3 cursor-pointer ${
+            showFeed ? 'top-5' : 'bottom-5'
+          }`}
+          onClick={() => scrollHandler(!showFeed)}
+        >
+          {showFeed ? (
+            <ChevronUpIcon className='h-6 w-6' />
+          ) : (
+            <ChevronDownIcon className='h-6 w-6' />
+          )}
+        </div>
       </div>
+      <SettingDrawer open={showDrawer} setOpen={setDrawer} />
     </ReactScrollWheelHandler>
   );
 }

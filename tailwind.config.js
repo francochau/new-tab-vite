@@ -22,26 +22,21 @@ module.exports = {
         '1/2': '50%',
         '3/4': '75%',
       },
+      animation: {
+        bg: 'bg 25s ease infinite',
+      },
+      keyframes: {
+        bg: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+      },
     },
-    gradientColorStops: (theme) => ({
-      ...theme('colors'),
-      'theme1-from': '#0F2027',
-      'theme1-via':'#203A43',
-      'theme1-to': '#2C5364',
-      'theme2-from': '#536976',
-      'theme2-to': '#292E49',
-      'theme3-from': '#232526',
-      'theme3-to': '#d18ab4',
-      'theme4-from': '#77A1D3',
-      'theme4-via':'#ae93c0',
-      'theme4-to': '#E684AE',
-      'theme5-from': '#D66D75',
-      'theme5-to': '#EF629F',
-      danger: '#e3342f',
-    }),
   },
   variants: {
-    extend: {},
+    extend: {
+      borderRadius: ['first', 'last'],
+    },
   },
   plugins: [require('@tailwindcss/forms')],
 };

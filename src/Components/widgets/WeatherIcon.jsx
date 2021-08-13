@@ -11,31 +11,32 @@ import {
   WiSnowflakeCold,
 } from 'weather-icons-react';
 
-const WeatherWidget = (props) => {
+const WeatherIcon = (props) => {
   function getIcon(now) {
+    const size = 70;
     const icon = props.forecast.weather ? props.forecast.weather[0].id : 0;
     switch (true) {
       case icon === 800:
-        return <WiDaySunny size={80} />;
+        return <WiDaySunny size={size} />;
 
       case icon > 800:
-        return <WiCloudy size={80} />;
+        return <WiCloudy size={size} />;
 
       case icon > 700:
-        return <WiFog size={80} />;
+        return <WiFog size={size} />;
 
       case icon > 600:
-        return <WiSnowflakeCold size={80} />;
+        return <WiSnowflakeCold size={size} />;
 
       case icon > 500:
-        return <WiRain size={80} />;
+        return <WiRain size={size} />;
       case icon > 300:
-        return <WiShowers size={80} />;
+        return <WiShowers size={size} />;
       case icon > 200:
-        return <WiThunderstorm size={80} />;
+        return <WiThunderstorm size={size} />;
 
       default:
-        return <WiCloudy size={80} />;
+        return <WiCloudy size={size} />;
     }
   }
 
@@ -49,7 +50,7 @@ const WeatherWidget = (props) => {
   return (
     <div
       style={{ margin: '1.5em', textAlign: 'center', fontSize: '1rem' }}
-      className='text-white'
+      className=''
     >
       <div>{getIcon(props.now)}</div>
       {props.forecast.main && props.now === true && (
@@ -85,9 +86,9 @@ const WeatherWidget = (props) => {
   );
 };
 
-WeatherWidget.propTypes = {
+WeatherIcon.propTypes = {
   forecast: PropTypes.object.isRequired,
   now: PropTypes.bool.isRequired,
 };
 
-export default WeatherWidget;
+export default WeatherIcon;

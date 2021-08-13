@@ -19,12 +19,4 @@ export default defineConfig({
       hook: 'writeBundle',
     }),
   ],
-  // build: {
-  //   rollupOptions: {
-  //     plugins: [commonjs()],
-  //   },
-  //   commonjsOptions: {
-  //     exclude: [/./],
-  //   },
-  // }
 });
