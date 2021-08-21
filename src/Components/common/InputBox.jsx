@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-function InputBox(props) {
-  const inputRef = useRef(null);
-
+function InputBox(props, ref) {
+  // const inputRef = useRef(null);
+  // props.value = props.defaultValue;
   return (
     <div className={props.className}>
       <label
@@ -17,13 +17,12 @@ function InputBox(props) {
         className='mt-1 relative rounded-md shadow-sm'
       >
         <input
-          ref={inputRef}
+          ref={ref}
           type='text'
           name={props.name ?? props.type}
           id={props.id ?? props.type}
-          className={`${
-            props.isLoading === true && 'bg-gray-300'
-          } shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md`}
+          className={`${props.isLoading === true && 'bg-gray-300'
+            } shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md`}
           onChange={props.onChange}
           defaultValue={props.defaultValue}
         />
@@ -33,8 +32,9 @@ function InputBox(props) {
             onClick={
               props.onTailingClick &&
               (() => {
-                const value = inputRef;
-                props.onTailingClick(value);
+                // const value = inputRef;
+                console.log(props.ref)
+                props.onTailingClick();
               })
             }
           >
@@ -48,4 +48,4 @@ function InputBox(props) {
 
 InputBox.propTypes = {};
 
-export default InputBox;
+export default forwardRef(InputBox);

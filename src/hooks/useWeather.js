@@ -8,7 +8,13 @@ export const useGeolocation = () => {
 
 export const useSetGeolocation = () => {
   return useMutation({
-    mutationFn: (location) => weather.setGeolocation(location),
+    mutationFn: ({ location = "", reverse = false, lat = 0, lon = 0 } = {}) =>
+      weather.setGeolocation({
+        location: location,
+        reverse: reverse,
+        lat: lat,
+        lon: lon,
+      }),
     // onMutate: () => {
     //   if (key=='1') { }
     // },
@@ -22,22 +28,24 @@ export const useSetGeolocation = () => {
 
 export const useCurrentCondition = (location) => {
   return useQuery(
-    ['currentCondition'],
+    ['currentCondition',location],
     () => weather.getCurrentCondition(location),
     {
       keepPreviousData: true,
       refetchOnReconnect: 'always',
+      enabled:!!location
     }
   );
 };
 
 export const useWeatherForecasts = (location) => {
   return useQuery(
-    ['weatherForecasts'],
+    ['weatherForecasts',location],
     () => weather.getWeatherForecasts(location),
     {
       keepPreviousData: true,
       refetchOnReconnect: 'always',
+      enabled:!!location
     }
   );
 };

@@ -26,12 +26,21 @@ export const getGeolocation = async () => {
   return geolocation;
 };
 
-export const setGeolocation = async (location) => {
+export const setGeolocation = async ({
+  location = '',
+  reverse = false,
+  lat = 0,
+  lon = 0,
+} = {}) => {
+  const query = reverse ? `lat=${lat}&lon=${lon}` : `q=${location}`;
+
   const { data } = await axios.get(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`
+    `http://api.openweathermap.org/geo/1.0/${
+      reverse ? 'reverse' : 'direct'
+    }?${query}&limit=1&appid=${key}`
   );
   const geolocation = data[0];
-  if (!geolocation) throw 'Location not found';
+  if (!geolocation) throw new Error( 'Location not found' );
   geolocation && (await browser.storage.sync.set({ geolocation: geolocation }));
 };
 
@@ -43,16 +52,16 @@ export const setGeolocation = async (location) => {
 //   return location;
 // };
 
-export const getCurrentCondition = async () => {
-  const location = await getGeolocation();
+export const getCurrentCondition = async (location) => {
+  // const location = await getGeolocation();
   const { data } = await axios.get(
     `https://api.openweathermap.org/data/2.5/weather?q=${location.name}&appid=${key}`
   );
   return data;
 };
 
-export const getWeatherForecasts = async () => {
-  const location = await getGeolocation();
+export const getWeatherForecasts = async (location) => {
+  // const location = await getGeolocation();
   const { data } = await axios.get(
     `https://api.openweathermap.org/data/2.5/onecall?lat=${location.lat}&lon=${location.lon}&exclude=minutely,hourly&appid=${key}&units=standard`
   );

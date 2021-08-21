@@ -10,8 +10,10 @@ export const defaultSubredditList = [
 
 export const defaultConfigs = {
   theme: 'theme4',
-  showSecond: 'true',
-  apiKey:''
+  apiKey: '',
+  showSeconds: true,
+  timeFormat: '24hr',
+  temperatureUnit: 'C'
 };
 
 export const defaultWidgetsList = {

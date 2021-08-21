@@ -9,37 +9,37 @@ import {
 const Weather = () => {
   // var res;
   // var forecastRes;
+  // useEffect(async() => {
+  //   const location = await getGeolocation();
+  // }, []);
+  // navigator.geolocation.getCurrentPosition(function(position) {
+  //   console.log("Latitude is :", position.coords.latitude);
+  //   console.log("Longitude is :", position.coords.longitude);
+  //   });
 
-  // const geolocationRes = useGeolocation();
+  // }, []);
+  const geolocationRes = useGeolocation();
   // if (geolocationRes.data) {
-  const res = useCurrentCondition(
-    // geolocationRes.data?.name
-  );
-  const forecastRes = useWeatherForecasts(
-    // {
-    // lon: geolocationRes.data?.lon,
-    // lat: geolocationRes.data?.lat,
-    // }
-  );
+
+  const res = useCurrentCondition(geolocationRes.data);
+  // geolocationRes.data?.name
+  const forecastRes = useWeatherForecasts(geolocationRes.data);
+  // {
+  // lon: geolocationRes.data?.lon,
+  // lat: geolocationRes.data?.lat,
+  // }
   // }
 
-  if (res.isLoading || forecastRes.isLoading) return 'Loading...';
+  if (res.isLoading || forecastRes.isLoading || !res.data || !forecastRes.data) return 'Loading...';
   if (res.error || forecastRes.error)
     return 'An error has occurred: ' + res.error + forecastRes.error;
-  // useEffect(() => {
-  // const location = 'Hong Kong';
-  // getLocationKey(location).then((location) => {
-  //   getCurrentCondition(location);
-  //   getWeatherForecasts(location);
-  // });
-  // }, []);
 
   return (
     <div className='inline-flex'>
       <WeatherIcon forecast={res.data} now={true} />
-      {forecastRes &&
+      {forecastRes.data &&
         forecastRes.data
-          .slice(1, 5)
+          ?.slice(1, 5)
           .map((e, index) => (
             <WeatherIcon forecast={e} now={false} key={index} />
           ))}

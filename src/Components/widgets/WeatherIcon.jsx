@@ -10,6 +10,7 @@ import {
   WiRain,
   WiSnowflakeCold,
 } from 'weather-icons-react';
+import { useConfigs } from '../../hooks/useStorage';
 
 const WeatherIcon = (props) => {
   function getIcon(now) {
@@ -43,9 +44,17 @@ const WeatherIcon = (props) => {
   // function getDate() {
   //   return props.forecast.dt.split('T')[0];
   // }
+  const configs = useConfigs();
+
   function convertStandardTemp(temperature) {
-    return Math.round(temperature - 273.15);
+    if (configs.data.temperatureUnit === 'C') {
+      return Math.round(temperature - 273.15);
+    } else {
+      return Math.round((temperature - 273.15) * 1.8 + 32);
+    }
   }
+
+  if (!configs.data) return <div></div>;
 
   return (
     <div

@@ -5,19 +5,37 @@ import { CheckCircleIcon } from '@heroicons/react/outline';
 import CircleIcon from '../../assets/CircleIcon';
 
 function RadioSelect(props) {
-  const [plan, setPlan] = useState('startup');
-  const options = ['yes', 'no'];
+  // const label = 'Time format';
+  // const options = [
+  //   { label: 'On', value: true },
+  //   { label: 'Off', value: false },
+  // ];
+  // const [selected, setSelected] = useState(options[0].value);
 
   return (
-    <RadioGroup value={plan} onChange={setPlan} className='flex'>
-      <RadioGroup.Label className='flex-grow text-sm font-medium text-gray-700'>
-        Plan
+    <RadioGroup
+      value={props.selected}
+      onChange={props.setSelected}
+      className={`flex items-center ${props.className}`}
+    >
+      <RadioGroup.Label className='flex-1 text-sm font-medium text-gray-700'>
+        {props.label}
       </RadioGroup.Label>
-      {options.map((option) => (
-        <RadioGroup.Option value={option} className='bg-blue-500 text-white hover:bg-blue-400 px-4 py-2 mx-0 first:rounded-l-lg outline-none focus:shadow-outline'>
-          {({ checked }) => (
-            <div className=''>
-              {/* <span
+      <div className='flex-1 flex'>
+        {props.options.map((option, index) => (
+          <RadioGroup.Option value={option.value ?? option} className='flex-1'>
+            {({ checked }) => (
+              <div
+                className={`
+              cursor-pointer border-2 border-indigo-600  hover:bg-indigo-500 hover:text-white px-4 py-1 mx-0 outline-none focus:shadow-outline transition-colors 
+              ${checked ? 'bg-indigo-600 text-white' : 'text-indigo-600'} ${
+                  (index === 0 && 'rounded-l-lg border-r-0') ||
+                  (index === props.options.length - 1 &&
+                    'rounded-r-lg border-l-0')
+                }`}
+              >
+                {option.label ?? option}
+                {/* <span
                 className={`cursor-pointer ${checked ? 'bg-blue-200' : ''}`}
               >
                 {option}
@@ -29,14 +47,18 @@ function RadioSelect(props) {
                   <CircleIcon className='w-6 h-6' />
                 )}
               </div> */}
-            </div>
-          )}
-        </RadioGroup.Option>
-      ))}
+              </div>
+            )}
+          </RadioGroup.Option>
+        ))}
+      </div>
     </RadioGroup>
   );
 }
 
-RadioSelect.propTypes = {};
+RadioSelect.propTypes = {
+  label: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired,
+};
 
 export default RadioSelect;
