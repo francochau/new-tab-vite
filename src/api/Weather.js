@@ -12,17 +12,6 @@ export const defaultGeolocation = {
 
 export const getGeolocation = async () => {
   const { geolocation } = await browser.storage.sync.get('geolocation');
-
-  if (geolocation == undefined) {
-    await browser.storage.sync.set({
-      geolocation: defaultGeolocation,
-    });
-    return defaultGeolocation;
-  }
-
-  // if (!geolocation.name) {
-  // }
-
   return geolocation;
 };
 
@@ -44,16 +33,7 @@ export const setGeolocation = async ({
   geolocation && (await browser.storage.sync.set({ geolocation: geolocation }));
 };
 
-// export const getLocationKey = async (location) => {
-//   const { data } = await axios.get(
-//     `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`
-//   );
-//   location = data[0];
-//   return location;
-// };
-
 export const getCurrentCondition = async (location) => {
-  // const location = await getGeolocation();
   const { data } = await axios.get(
     `https://api.openweathermap.org/data/2.5/weather?q=${location.name}&appid=${key}`
   );
@@ -61,7 +41,6 @@ export const getCurrentCondition = async (location) => {
 };
 
 export const getWeatherForecasts = async (location) => {
-  // const location = await getGeolocation();
   const { data } = await axios.get(
     `https://api.openweathermap.org/data/2.5/onecall?lat=${location.lat}&lon=${location.lon}&exclude=minutely,hourly&appid=${key}&units=standard`
   );

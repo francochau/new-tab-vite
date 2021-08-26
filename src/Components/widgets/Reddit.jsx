@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import './Widget.css';
-import { useRedditPosts } from '../../hooks/useReddit';
+import { useRedditPosts, useSubredditSearch } from '../../hooks/useReddit';
 import {
   useSubredditList,
   useAddSubreddit,
@@ -11,9 +11,10 @@ import {
   useSetWidgets,
   useWidgets,
 } from '../../hooks/useStorage';
-import { TrashIcon, StarIcon } from '@heroicons/react/outline';
+import { Listbox } from '@headlessui/react';
+import { TrashIcon, StarIcon, SelectorIcon } from '@heroicons/react/outline';
 import { StarIcon as SolidStarIcon } from '@heroicons/react/solid';
-import RedditSvg from '../../assets/RedditSvg.jsx';
+import { RedditSvg } from '../../assets/RedditSvg.jsx';
 
 const Reddit = (props) => {
   const widgets = useWidgets();
@@ -32,7 +33,7 @@ const Reddit = (props) => {
   const [subredditInput, setSubredditInput] = useState('');
 
   const redditPosts = useRedditPosts(config?.src, config?.sorting);
-  // isPreviousData = useState(redditPosts?.isPreviousData ?? true);
+  const subredditSearch = useSubredditSearch(subredditInput);
 
   const subredditList = useSubredditList();
   const addSubreddit = useAddSubreddit();
@@ -54,16 +55,11 @@ const Reddit = (props) => {
     setEditing(false);
   };
 
-  const postStyle = {
-    margin: '0 0 2em 0',
-    padding: '0.5em 1em',
-    borderLeft: 'solid 2px rgba(255,250,250, .2)',
-  };
-
+  const [openDropdown, setOpenDropdown] = useState(false);
   if (!widgets.data) return <div></div>;
 
   return (
-    <div className='flex h-full'>
+    <div className='flex h-full max-w-xl'>
       <div style={{ overflow: 'hidden', margin: '1.5em', fontSize: 'initial' }}>
         <div
           style={{ margin: '1.5em 0', width: '30vw' }}
@@ -74,19 +70,12 @@ const Reddit = (props) => {
         >
           <RedditSvg className='flex-shrink-0' />
           <span className='truncate'>
-            {sortingList.find((e) => e.value === config.sorting).label} on r/
-            {config.src}
+            {sortingList.find((e) => e.value === config.sorting).label}
+            {config.src ? ` on r/${config.src}` : ' on Reddit'}
           </span>
         </div>
 
         <div className='widgetcontainer'>
-        {/* <Scrollbars
-          className='max-w-lg'
-          style={{ height: '70vh' }}
-          autoHide
-          autoHideTimeout={500}
-          autoHideDuration={300}
-        > */}
           {isEditing ? (
             <div className=''>
               <p className='text-md font-semibold'>Sorting</p>
@@ -95,7 +84,7 @@ const Reddit = (props) => {
                   sortingList.map((e) => (
                     <p
                       className={`mr-4 cursor-pointer ${
-                        config.sorting == e.value && 'border-b border-gray-400'
+                        config.sorting == e.value && 'border-b border-gray-100'
                       }`}
                       onClick={() => {
                         changeSorting(e.value);
@@ -108,8 +97,11 @@ const Reddit = (props) => {
 
               <br />
               <div className='flex w-4/5'>
-                <p className='text-md font-semibold flex-grow'>Subreddit</p>
+                <p className='text-md font-semibold flex-grow cursor-pointer'>
+                  Subreddit
+                </p>
                 <span
+                  className='cursor-pointer'
                   onClick={() => {
                     changeSorting();
                     changeSrc();
@@ -118,28 +110,84 @@ const Reddit = (props) => {
                   Frontpage
                 </span>
               </div>
-              <div className='mt-1 flex rounded-md shadow-sm w-4/5'>
-                <div className='relative flex items-stretch flex-grow focus-within:z-10'>
-                  {/* <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-black'>
-                  </div> */}
-                  <input
-                    type='text'
-                    name='subredditInput'
-                    id='subreddit'
-                    value={subredditInput}
-                    onChange={(e) => setSubredditInput(e.target.value)}
-                    className='focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 text-black'
-                  />
-                </div>
-                <button
-                  className='-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500'
-                  onClick={() => {
-                    addSubreddit.mutate(subredditInput);
-                    setSubredditInput('');
-                  }}
-                >
-                  <span>+</span>
-                </button>
+              <div className='w-4/5 relative'>
+                {
+                  <Listbox onChange={() => {}}>
+                    <div className='mt-1 flex rounded-md shadow-sm'>
+                      <div className='relative flex items-stretch flex-grow focus-within:z-10'>
+                        <input
+                          type='text'
+                          name='subredditInput'
+                          autoComplete='off'
+                          id='subreddit'
+                          value={subredditInput}
+                          onChange={(e) => {
+                            setSubredditInput(e.target.value);
+                          }}
+                          className='focus:border-white focus:ring-0 ring-transparent focus:outline-none active:outline-none  block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 text-white bg-transparent border'
+                          style={{ outline: 'none' }}
+                          onClick={() => setOpenDropdown(true)}
+                        />
+                        <Listbox.Button as={Fragment}>
+                          <button className='-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-white  bg-transparent focus:ring-0 focus:outline-none'>
+                            <span>
+                              <SelectorIcon
+                                className='h-4 w-4'
+                                onClick={() => setOpenDropdown(!openDropdown)}
+                              />
+                            </span>
+                          </button>
+                        </Listbox.Button>
+                      </div>
+                    </div>
+                    {subredditSearch.data &&
+                      subredditSearch.data?.length > 0 &&
+                      openDropdown && (
+                        <Listbox.Options as={Fragment} static>
+                          <div className='absolute bg-transparent text-white rounded-md b overflow-auto py-1 mt-1 backdrop-filter shadow-sm backdrop-blur-lg w-full'>
+                            <Scrollbars
+                              autoHide
+                              autoHideTimeout={500}
+                              autoHideDuration={300}
+                              style={{
+                                height: '15rem',
+                              }}
+                            >
+                              {subredditSearch.data
+                                .filter(
+                                  (e) =>
+                                    !subredditList.data
+                                      .map((e) => e.subreddit)
+                                      .includes(e.data.display_name)
+                                )
+                                .map((e) => (
+                                  <Listbox.Option
+                                    key={e.id}
+                                    value={e?.data?.display_name}
+                                    as={Fragment}
+                                  >
+                                    <div
+                                      onClick={() => {
+                                        addSubreddit.mutate(
+                                          e?.data?.display_name
+                                        );
+                                        setSubredditInput('');
+                                        changeSrc(e?.data?.display_name);
+                                      }}
+                                    >
+                                      <div className='p-2 border-b border-white border-opacity-30 cursor-pointer'>
+                                        {e?.data?.display_name} -{' '}
+                                        {e?.data?.title}
+                                      </div>
+                                    </div>
+                                  </Listbox.Option>
+                                ))}
+                            </Scrollbars>
+                          </div>
+                        </Listbox.Options>
+                      )}
+                  </Listbox>
+                }
               </div>
               {subredditList.data &&
                 !subredditList.isLoading &&
@@ -187,21 +235,20 @@ const Reddit = (props) => {
               )}
               {redditPosts.data &&
                 redditPosts.data.map((e, index) => (
-                  <a
+                  <div
                     key={index}
-                    style={{ color: '#FFFFFF', textDecoration: 'none' }}
-                    href={`https://reddit.com${e.data.permalink}`}
-                    target='_blank'
-                    rel='noreferrer'
+                    onClick={() => {window.open(`https://reddit.com${e.data.permalink}`, "_blank")}}
+                    className="group cursor-pointer"
                   >
-                    <div style={postStyle} key={index}>
+                    <div
+                      className="mb-8 border-l-2 px-4 py-2 border-white border-opacity-20 group-hover:border-opacity-70 transition text-white"
+                      key={index}>
                       {e.data.title}
                     </div>
-                  </a>
+                  </div>
                 ))}
             </div>
           )}
-        {/* </Scrollbars> */}
         </div>
       </div>
     </div>

@@ -32,8 +32,6 @@ function InputBox(props, ref) {
             onClick={
               props.onTailingClick &&
               (() => {
-                // const value = inputRef;
-                console.log(props.ref)
                 props.onTailingClick();
               })
             }

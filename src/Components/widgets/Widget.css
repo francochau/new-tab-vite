@@ -10,3 +10,7 @@
 .widgetcontainer::-webkit-scrollbar {
   display: none;
 }
+
+input:focus{
+  outline: none!important;
+}

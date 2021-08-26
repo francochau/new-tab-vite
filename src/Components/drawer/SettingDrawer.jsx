@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Transition } from '@headlessui/react';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-import { useConfigs, useSetConfigs } from '../../hooks/useStorage';
+import { useConfigs } from '../../hooks/useStorage';
 import { getThemeStyle, getThemeClass } from '../../themes/themes';
 import PropTypes from 'prop-types';
 import Drawer from './Drawer';
@@ -12,7 +12,6 @@ import { ThemeTab, ConfigsTab, AboutTab } from './tabs';
 
 const SettingDrawer = (props) => {
   const configs = useConfigs();
-  const setConfigs = useSetConfigs();
 
   const [tabs] = useState([
     { name: 'Theme', icon: SparklesIcon, component: <ThemeTab /> },

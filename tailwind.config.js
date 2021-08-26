@@ -36,6 +36,7 @@ module.exports = {
   variants: {
     extend: {
       borderRadius: ['first', 'last'],
+      outline: ['active'],
     },
   },
   plugins: [require('@tailwindcss/forms')],

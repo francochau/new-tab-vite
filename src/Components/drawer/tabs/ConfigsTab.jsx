@@ -26,7 +26,7 @@ function ConfigsTab() {
   const latRef = useRef(null);
   const lonRef = useRef(null);
 
-  if (!geolocation.data || !configs.data) return <div></div>;
+  if (!configs.data) return <div></div>;
   else {
     return (
       <div>
@@ -44,7 +44,7 @@ function ConfigsTab() {
               className='mr-3 mb-1 flex-grow'
               type='location'
               label='Location'
-              defaultValue={geolocation.data.name}
+              defaultValue={geolocation.data?.name ?? ''}
               // value={location}
               tailing={<SearchIcon className='h-5 w-5' />}
               onTailingClick={(e) => {
@@ -58,8 +58,6 @@ function ConfigsTab() {
               onClick={() => {
                 navigator.geolocation.getCurrentPosition(
                   (position) => {
-                    console.log('Latitude is :', position.coords.latitude);
-                    console.log('Longitude is :', position.coords.longitude);
                     setGeolocation.mutate({
                       reverse: true,
                       lat: position.coords.latitude,
@@ -80,7 +78,7 @@ function ConfigsTab() {
               className='mr-3'
               label='Latitude'
               type='latitude'
-              defaultValue={geolocation.data.lat}
+              defaultValue={geolocation.data?.lat ?? ''}
               isLoading={setGeolocation.isLoading}
             />
             <InputBox
@@ -88,7 +86,7 @@ function ConfigsTab() {
               className=''
               label='Longitude'
               type='longitude'
-              defaultValue={geolocation.data.lon}
+              defaultValue={geolocation.data?.lon ?? ''}
               isLoading={setGeolocation.isLoading}
               tailing={<LocationMarkerIcon className='h-5 w-5' />}
               onTailingClick={(e) => {

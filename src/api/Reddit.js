@@ -9,3 +9,10 @@ export const getRedditPosts = async (subreddit, sorting) => {
   const { data } = await axios.get(url);
   return data.data.children;
 };
+
+export const getSubredditSearch = async (subreddit) => {
+  const { data } = await axios.get(
+    `https://www.reddit.com/subreddits/search.json?q=${subreddit}`
+  );
+  return data.data.children;
+};

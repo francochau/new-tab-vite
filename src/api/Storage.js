@@ -2,23 +2,25 @@ import browser from 'webextension-polyfill';
 import { queryClient } from '../utils/ReactQuery';
 
 export const defaultSubredditList = [
-  { subreddit: 'Cryptocurrency', fav: true },
-  { subreddit: 'News', fav: false },
-  { subreddit: 'Tree', fav: false },
-  { subreddit: 'Reactjs', fav: false },
+  { subreddit: 'GlobalNews', fav: false },
+  { subreddit: 'selfimprovement', fav: false },
+  { subreddit: 'CryptoCurrency', fav: false },
+  { subreddit: 'Books', fav: false },
+
 ];
 
 export const defaultConfigs = {
-  theme: 'theme4',
+  theme: 'theme1',
   apiKey: '',
-  showSeconds: true,
-  timeFormat: '24hr',
-  temperatureUnit: 'C'
+  showSeconds: false,
+  timeFormat: '12hr',
+  temperatureUnit: 'C',
+  welcome: true
 };
 
 export const defaultWidgetsList = {
-  left: { sorting: 'hot', src: 'News', type: 'reddit' },
-  right: { sorting: 'rising', src: 'Cryptocurrency', type: 'reddit' },
+  left: { sorting: 'hot', src: '', type: 'reddit' },
+  right: { sorting: 'hot', src: 'GlobalNews', type: 'reddit' },
 };
 
 export const getSubredditList = async () => {

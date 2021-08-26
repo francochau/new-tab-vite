@@ -1,6 +1,6 @@
 import React from 'react';
 
-function RedditSvg() {
+export function RedditSvg() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -16,5 +16,3 @@ function RedditSvg() {
     </svg>
   );
 }
-
-export default RedditSvg;

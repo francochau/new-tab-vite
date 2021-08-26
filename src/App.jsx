@@ -10,9 +10,11 @@ import {
   MenuAlt4Icon,
   ChevronUpIcon,
   ChevronDownIcon,
+  XIcon,
+  ArrowSmDownIcon
 } from '@heroicons/react/outline';
 
-import { useConfigs } from './hooks/useStorage';
+import { useConfigs, useSetConfigs } from './hooks/useStorage';
 import { getThemeStyle, getThemeClass } from './themes/themes';
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
   const [mounted, setMounted] = useState(false);
 
   const configs = useConfigs();
+  const setConfigs = useSetConfigs();
 
   const scrollHandler = (direction) => {
     setShowFeed(direction);
@@ -33,7 +36,9 @@ function App() {
   return (
     <ReactScrollWheelHandler
       upHandler={() => scrollHandler(false)}
-      downHandler={() => scrollHandler(true)}
+      downHandler={() => {
+        scrollHandler(true);
+      }}
       pauseListeners={scrolling || showDrawer}
     >
       <div
@@ -89,15 +94,34 @@ function App() {
         </div>
 
         <div
-          className={`absolute left-1/2 -ml-3 cursor-pointer ${
+          className={`absolute left-1/2 -ml-3 ${
             showFeed ? 'top-5' : 'bottom-5'
           }`}
-          onClick={() => scrollHandler(!showFeed)}
         >
+          {configs?.data?.welcome && !showFeed && (
+            <div className='text-base flex flex-col backdrop-filter backdrop-blur-xl rounded-lg mb-3'>
+              <XIcon
+                className='h-4 w-4 self-end cursor-pointer'
+                onClick={() => {
+                  setConfigs.mutate({
+                    key: 'welcome',
+                    settings: false,
+                  });
+                }}
+              />
+              <span>Scroll down or press <ArrowSmDownIcon className="inline-block h-5"/> to show Reddit feeds</span>
+            </div>
+          )}
           {showFeed ? (
-            <ChevronUpIcon className='h-6 w-6' />
+            <ChevronUpIcon
+              className='h-6 w-6 cursor-pointer'
+              onClick={() => scrollHandler(!showFeed)}
+            />
           ) : (
-            <ChevronDownIcon className='h-6 w-6' />
+            <ChevronDownIcon
+              className='h-6 w-6 cursor-pointer'
+              onClick={() => scrollHandler(!showFeed)}
+            />
           )}
         </div>
       </div>
