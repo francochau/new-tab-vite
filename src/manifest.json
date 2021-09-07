@@ -1,10 +1,16 @@
 {
   "manifest_version": 3,
-  "name": "New Tab",
-  "description": "New Tab Extension!",
+  "name": "Asa - Minimal New Tab Page with Reddit feeds",
+  "short_name": "Asa",
+  "description": "A Minimal New Tab Extension integrated with Reddit.",
   "version": "1.0",
-  "permissions": ["management", "history", "storage"],
+  "permissions": ["storage"],
   "chrome_url_overrides": {
     "newtab": "index.html"
+  },
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
   }
 }

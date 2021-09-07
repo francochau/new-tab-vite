@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Logo from '../../assets/Logo.svg';
 
 function TabSelector(props) {
   return (
-    <div>
-      <div className='border-b border-gray-200 mb-5'>
+    <div className=''>
+      <div className='border-b border-gray-200 mb-5 flex'>
+        <img src={Logo} alt='' className='h-10 w-10 inline-block mr-5' />
         <nav className='-mb-px flex space-x-8' aria-label='Tabs'>
           {props.tabs.map((tab, index) => (
             <div

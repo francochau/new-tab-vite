@@ -14,58 +14,53 @@ export const themeTypes = [
 ];
 
 export const themes = {
-  theme1: {
+  conny: {
     name: 'Conny',
     type: 'gradient',
     colors: ['#536976', '#292E49'],
   },
-  theme2: {
-    name: 'Theme 2',
+  pepe: {
+    name: 'Pepe',
     type: 'gradient',
     colors: ['#0F2027', '#203A43', '#2C5364'],
   },
-  theme3: {
-    name: 'Theme 3',
+  vivid: {
+    name: 'Vivid',
     type: 'gradient',
     colors: ['#ad5389', '#3c1053'],
   },
-  theme4: {
-    name: 'Theme 4',
-    type: 'gradient',
-    colors: ['#12c2e9', '#c471ed', '#f64f59'],
-  },
-  theme5: {
+  shayla: {
     name: 'Shayla',
     type: 'gradient',
     colors: ['#77A1D3', '#ae93c0', '#E684AE'],
   },
-  theme6: {
-    name: 'Theme 6',
-    type: 'gradient',
-    colors: ['#ffdde1', '#ee9ca7'],
-  },
-  theme7: {
-    name: 'Theme 7',
+  zen: {
+    name: 'Zen',
     type: 'solid',
-    color: '#3B444B',
+    color: '#313443',
   },
-  theme8: {
-    name: 'Theme 8',
+  royal: {
+    name: 'Royal',
     type: 'solid',
-    color: '#5D8AA8',
+    color: '#1b1e31',
   },
-  theme9: {
-    name: 'Theme 9',
+  river: {
+    name: 'River',
     type: 'solid',
-    color: '#DE6FA1',
+    color: '#326373',
   },
-  theme10: {
-    name: 'Theme 10',
+  sweet: {
+    name: 'Sweet',
+    type: 'solid',
+    color: '#af6195',
+  },
+  sparkling: {
+    name: 'Sparkling',
     type: 'animated',
     colors: ['#e381cf', '#e73c7e', '#23a6d5', '#23d5ab'],
   },
-  theme4: {
-    name: 'Theme 4',
+  psychedlic: {
+    name: 'Psychedlic',
     type: 'animated',
     colors: ['#12c2e9', '#c471ed', '#f26bde'],
   },

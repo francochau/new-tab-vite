@@ -1,8 +1,7 @@
 import axios from 'axios';
 import browser from 'webextension-polyfill';
 
-const key = 'aeee45d8d84c5345e753714ba560babe';
-const location = 'Hong Kong';
+const key = import.meta.env.VITE_APIKEY;
 
 export const defaultGeolocation = {
   name: 'Hong Kong',
@@ -24,7 +23,7 @@ export const setGeolocation = async ({
   const query = reverse ? `lat=${lat}&lon=${lon}` : `q=${location}`;
 
   const { data } = await axios.get(
-    `http://api.openweathermap.org/geo/1.0/${
+    `https://api.openweathermap.org/geo/1.0/${
       reverse ? 'reverse' : 'direct'
     }?${query}&limit=1&appid=${key}`
   );

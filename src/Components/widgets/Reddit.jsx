@@ -195,14 +195,14 @@ const Reddit = (props) => {
                   <div className='flex group mt-2 mb-2 w-4/5 min-w-0'>
                     {e.fav ? (
                       <SolidStarIcon
-                        className={`h-5 w-5 self-center mr-3 text-white group-hover:text-white cursor-pointer flex-shrink-0`}
+                        className={`h-5 w-5 self-center mr-3 text-white group-hover:text-white cursor-pointer flex-shrink-0 transition-colors`}
                         onClick={() => {
                           favSubreddit.mutate(index);
                         }}
                       />
                     ) : (
                       <StarIcon
-                        className={`h-5 w-5 self-center mr-3 text-transparent group-hover:text-white cursor-pointer flex-shrink-0`}
+                        className={`h-5 w-5 self-center mr-3 text-transparent group-hover:text-white cursor-pointer flex-shrink-0 transition-colors`}
                         onClick={() => {
                           favSubreddit.mutate(index);
                         }}
@@ -218,7 +218,7 @@ const Reddit = (props) => {
                     </div>
 
                     <TrashIcon
-                      className='h-5 w-5 mr-5 self-center text-transparent group-hover:text-white cursor-pointer flex-shrink-0'
+                      className='h-5 w-5 mr-5 self-center text-transparent group-hover:text-white cursor-pointer flex-shrink-0 transition-colors'
                       onClick={() => {
                         removeSubreddit.mutate(index);
                       }}

@@ -10,7 +10,7 @@ export const defaultSubredditList = [
 ];
 
 export const defaultConfigs = {
-  theme: 'theme1',
+  theme: 'shayla',
   apiKey: '',
   showSeconds: false,
   timeFormat: '12hr',

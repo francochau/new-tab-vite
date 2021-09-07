@@ -23,7 +23,7 @@ export const useSubredditSearch = (subreddit) => {
     () => reddit.getSubredditSearch(subreddit),
     {
       enabled: !!subreddit,
-      cacheTime: 0
+      cacheTime: 0,
     }
   );
 };
