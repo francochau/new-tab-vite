@@ -19,5 +19,4 @@ const localStoragePersistor = createWebStoragePersistor({
 persistQueryClient({
   queryClient,
   persistor: localStoragePersistor,
-  maxAge: 1000 * 60 * 60
 });

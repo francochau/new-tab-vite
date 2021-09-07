@@ -20,8 +20,6 @@ const Reddit = (props) => {
   const widgets = useWidgets();
   const setWidgets = useSetWidgets();
 
-  const [config, setConfig] = useState(widgets.data?.[props.position]);
-
   const [sortingList] = useState([
     { value: 'hot', label: 'Popular' },
     { value: 'rising', label: 'Rising' },
@@ -32,7 +30,7 @@ const Reddit = (props) => {
   const [isEditing, setEditing] = useState(false);
   const [subredditInput, setSubredditInput] = useState('');
 
-  const redditPosts = useRedditPosts(config?.src, config?.sorting);
+  const redditPosts = useRedditPosts(widgets.data?.[props.position]?.src, widgets.data?.[props.position]?.sorting);
   const subredditSearch = useSubredditSearch(subredditInput);
 
   const subredditList = useSubredditList();
@@ -45,13 +43,12 @@ const Reddit = (props) => {
       position: props.position,
       settings: { sorting: sorting },
     });
-    setConfig({ ...config, sorting: sorting });
+
     setEditing(false);
   };
 
   const changeSrc = (src) => {
     setWidgets.mutate({ position: props.position, settings: { src: src } });
-    setConfig({ ...config, src: src });
     setEditing(false);
   };
 
@@ -70,8 +67,8 @@ const Reddit = (props) => {
         >
           <RedditSvg className='flex-shrink-0' />
           <span className='truncate'>
-            {sortingList.find((e) => e.value === config.sorting).label}
-            {config.src ? ` on r/${config.src}` : ' on Reddit'}
+            {sortingList.find((e) => e.value === widgets.data?.[props.position].sorting).label}
+            {widgets.data?.[props.position].src ? ` on r/${widgets.data?.[props.position].src}` : ' on Reddit'}
           </span>
         </div>
 
@@ -84,7 +81,7 @@ const Reddit = (props) => {
                   sortingList.map((e) => (
                     <p
                       className={`mr-4 cursor-pointer ${
-                        config.sorting == e.value && 'border-b border-gray-100'
+                        widgets.data?.[props.position].sorting == e.value && 'border-b border-gray-100'
                       }`}
                       onClick={() => {
                         changeSorting(e.value);

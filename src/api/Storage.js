@@ -6,7 +6,6 @@ export const defaultSubredditList = [
   { subreddit: 'selfimprovement', fav: false },
   { subreddit: 'CryptoCurrency', fav: false },
   { subreddit: 'Books', fav: false },
-
 ];
 
 export const defaultConfigs = {
@@ -15,7 +14,7 @@ export const defaultConfigs = {
   showSeconds: false,
   timeFormat: '12hr',
   temperatureUnit: 'C',
-  welcome: true
+  welcome: true,
 };
 
 export const defaultWidgetsList = {
@@ -73,7 +72,7 @@ export const removeSubreddit = async (index) => {
 
 export const getWidgets = async (position) => {
   const { widgets } = await browser.storage.sync.get('widgets');
-
+  
   if (widgets == undefined) {
     await browser.storage.sync.set({
       widgets: defaultWidgetsList,

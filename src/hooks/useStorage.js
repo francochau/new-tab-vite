@@ -4,7 +4,7 @@ import * as storage from '../api/Storage';
 
 export const useWidgets = (position) => {
     return useQuery(`widgets`, () => storage.getWidgets(position), {
-      placeholderData: storage.defaultWidgetsList,
+      // placeholderData: storage.defaultWidgetsList,
     });
   };
   
